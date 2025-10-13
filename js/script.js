@@ -36,28 +36,53 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    let currentPage = 0;
-    const boxesPerPage = 3;
-    const totalPages = Math.ceil(boxes.length / boxesPerPage);
+    let currentIndex = 0;
+    let boxesPerView = 3;
 
-    function openCertificate(url) {
-        console.log("Opening certificate:", url);
-        window.open(url, "_blank");
+    function updateBoxesPerView() {
+        if (window.innerWidth <= 768) {
+            boxesPerView = 1;
+        } else if (window.innerWidth <= 1200) {
+            boxesPerView = 2;
+        } else {
+            boxesPerView = 3;
+        }
     }
 
-    boxes.forEach(box => {
-        box.addEventListener('click', (e) => {
-            e.stopPropagation();
-            
-            const onclickAttr = box.getAttribute('onclick');
-            if (onclickAttr) {
-                const urlMatch = onclickAttr.match(/openCertificate\('([^']+)'\)/);
-                if (urlMatch && urlMatch[1]) {
-                    openCertificate(urlMatch[1]);
-                }
-            }
+    function createDots() {
+        dotsContainer.innerHTML = "";
+        const totalSteps = boxes.length - boxesPerView + 1;
+        for (let i = 0; i < totalSteps; i++) {
+            const dot = document.createElement("div");
+            dot.classList.add("carousel-dot");
+            if (i === 0) dot.classList.add("active");
+            dot.addEventListener("click", () => goToIndex(i));
+            dotsContainer.appendChild(dot);
+        }
+    }
+
+    function updateCarousel() {
+        const boxWidth = boxes[0].offsetWidth + 24;
+        wrapper.style.transform = `translateX(-${currentIndex * boxWidth}px)`;
+
+        const dots = document.querySelectorAll(".carousel-dot");
+        dots.forEach((dot, i) => {
+            dot.classList.toggle("active", i === currentIndex);
         });
 
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex >= boxes.length - boxesPerView;
+    }
+
+    function goToIndex(index) {
+        currentIndex = Math.max(0, Math.min(index, boxes.length - boxesPerView));
+        updateCarousel();
+    }
+
+    prevBtn.addEventListener("click", () => goToIndex(currentIndex - 1));
+    nextBtn.addEventListener("click", () => goToIndex(currentIndex + 1));
+
+    boxes.forEach(box => {
         const overlay = box.querySelector('.certificate-overlay');
         if (overlay) {
             overlay.addEventListener('click', (e) => {
@@ -73,39 +98,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    function createDots() {
-        dotsContainer.innerHTML = "";
-        for (let i = 0; i < totalPages; i++) {
-            const dot = document.createElement("div");
-            dot.classList.add("carousel-dot");
-            if (i === 0) dot.classList.add("active");
-            dot.addEventListener("click", () => goToPage(i));
-            dotsContainer.appendChild(dot);
-        }
-    }
-
-    function updateCarousel() {
-        const boxWidth = boxes[0].offsetWidth + 24; 
-        wrapper.style.transform = `translateX(-${currentPage * boxWidth * boxesPerPage}px)`;
-
-        document.querySelectorAll(".carousel-dot").forEach((dot, i) => {
-            dot.classList.toggle("active", i === currentPage);
-        });
-
-        prevBtn.disabled = currentPage === 0;
-        nextBtn.disabled = currentPage === totalPages - 1;
-    }
-
-    function goToPage(page) {
-        currentPage = Math.max(0, Math.min(page, totalPages - 1));
+    window.addEventListener("resize", () => {
+        updateBoxesPerView();
+        createDots();
         updateCarousel();
-    }
+    });
 
-    prevBtn.addEventListener("click", () => goToPage(currentPage - 1));
-    nextBtn.addEventListener("click", () => goToPage(currentPage + 1));
-
-    window.addEventListener("resize", updateCarousel);
-
+    updateBoxesPerView();
     createDots();
     updateCarousel();
 });
