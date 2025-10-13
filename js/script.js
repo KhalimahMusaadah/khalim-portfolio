@@ -1,3 +1,17 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const contentBoxes = document.querySelectorAll('.education-content .content');
+
+    contentBoxes.forEach(box => {
+        box.addEventListener('click', () => {
+            contentBoxes.forEach(b => {
+                if (b !== box) b.classList.remove('active');
+            });
+
+            box.classList.toggle('active');
+        });
+    });
+});
+
 const seeMoreBtn = document.getElementById('see-more-btn');
 const extraProjects = document.querySelector('.extra-projects');
 let isVisible = false;
