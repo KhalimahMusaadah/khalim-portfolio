@@ -1,3 +1,109 @@
+//scroll sections
+let sections = document.querySelectorAll('section');
+let navLinks = document.querySelectorAll('header nav a');
+
+window.onscroll = () => {
+    let scrollY = window.scrollY;
+    
+    sections.forEach(sec => {
+        let offset = sec.offsetTop - 100;
+        let height = sec.offsetHeight;
+        let id = sec.getAttribute('id');
+
+        if(scrollY >= offset && scrollY < offset + height){
+            //active navbar links
+            navLinks.forEach(links => {
+                links.classList.remove('active');
+            });
+            let activeLink = document.querySelector(`header nav a[href*="#${id}"]`);
+            if(activeLink) {
+                activeLink.classList.add('active');
+            }
+        }
+    });
+
+    //sticky header
+    let header = document.querySelector('header'); 
+    header.classList.toggle('sticky', scrollY > 100);
+}
+
+let menuIcon = document.querySelector('#menu-icon');
+let navbar = document.querySelector('.navbar');
+
+let navbarOverlay = document.querySelector('.navbar-overlay');
+if (!navbarOverlay) {
+    navbarOverlay = document.createElement('div');
+    navbarOverlay.className = 'navbar-overlay';
+    document.body.appendChild(navbarOverlay);
+}
+
+function openNavbar() {
+    menuIcon.classList.add('bx-x');
+    navbar.classList.add('active');
+    navbarOverlay.classList.add('active');
+    document.body.classList.add('navbar-open');
+}
+
+function closeNavbar() {
+    menuIcon.classList.remove('bx-x');
+    navbar.classList.remove('active');
+    navbarOverlay.classList.remove('active');
+    document.body.classList.remove('navbar-open');
+}
+
+if(menuIcon) {
+    menuIcon.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (navbar.classList.contains('active')) {
+            closeNavbar();
+        } else {
+            openNavbar();
+        }
+    });
+}
+
+navbarOverlay.addEventListener('click', closeNavbar);
+
+navLinks.forEach(link => {
+    link.addEventListener('click', function (e) {
+
+        if (window.innerWidth <= 768) {
+            closeNavbar();
+        }
+
+        const targetId = this.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+
+        if (targetSection) {
+            e.preventDefault();
+
+            const headerHeight = document.querySelector('.header').offsetHeight;
+            const sectionTop = targetSection.offsetTop - headerHeight;
+
+            window.scrollTo({
+                top: sectionTop,
+                behavior: 'smooth'
+            });
+
+            navLinks.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+        }
+    });
+});
+
+window.addEventListener('scroll', () => {
+    if (navbar.classList.contains('active')) {
+        closeNavbar();
+    }
+});
+
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 768 && navbar.classList.contains('active')) {
+        closeNavbar();
+    }
+});
+
+
 document.addEventListener('DOMContentLoaded', function () {
     const contentBoxes = document.querySelectorAll('.education-content .content');
 
