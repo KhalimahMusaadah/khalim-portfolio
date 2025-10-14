@@ -113,3 +113,40 @@ function openCertificate(url) {
     console.log("Opening certificate:", url);
     window.open(url, "_blank");
 }
+
+//membuat pesan "berhasil dikirim"
+const form = document.getElementById("contact-form");
+const messageBox = document.getElementById("form-message")
+
+form.addEventListener("submit", async (e) => {
+    e.preventDefault(); 
+
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch(form.action, {
+            method: form.method,
+            body: formData,
+            headers: {
+                Accept: "application/json",
+            },
+        });
+        
+        if (response.ok) {
+            messageBox.textContent = "✅ Pesan berhasil dikirim!";
+            messageBox.className = "success-message";
+            messageBox.style.display = "block";
+            form.reset();
+        } else {
+            throw new Error("Terjadi kesalahan saat mengirim pesan.");
+        }
+    } catch (error) {
+        messageBox.textContent = "❌ Gagal mengirim pesan. Silakan coba lagi.";
+        messageBox.className = "error-message";
+        messageBox.style.display = "block";
+    }
+    
+    setTimeout(() => {
+        messageBox.style.display = "none";
+    }, 5000);
+});
