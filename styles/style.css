@@ -84,7 +84,7 @@ body {
 
 section {
     min-height: 100vh;
-    padding: 5rem 9% 2rem;
+    padding: 1rem 9% 2rem;
 }
 
 .home {
@@ -126,7 +126,7 @@ section {
 
 .home-content p {
     font-size: 1.6rem;
-    margin: 2rem 0 4rem;
+    margin: 1rem 0 4rem;
 }
 
 .btn-box {
@@ -310,7 +310,8 @@ section {
         display: flex;
         flex-direction: column;
         padding: 8rem 2rem 2rem;
-        z-index: 1000;
+        z-index: 1001;
+        pointer-events: auto;
     }
 
     .navbar.active {
@@ -353,9 +354,10 @@ section {
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
-        z-index: 999;
+        z-index: 1000;
         display: none;
         cursor: pointer;
+        pointer-events: auto;
     }
 
     .navbar-overlay.active {
@@ -467,9 +469,9 @@ section {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2rem;
     background-color: var(--second-bg-color);
-    padding-bottom: 4rem 0;
+    padding-bottom: 3rem;
 }
 
 .heading {
@@ -523,7 +525,7 @@ span {
 
 .about-content p {
     font-size: 1.5rem;
-    margin: 0.5rem 0 3rem;
+    margin: 0.5rem 0 4rem;
     line-height: 1.6;
 }
 
@@ -737,11 +739,12 @@ span {
 
 .skills {
     background: var(--second-bg-color);
-    padding: 6rem 9%;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2rem;
+    padding-bottom: 5rem;
 }
 
 .skills-column {
@@ -761,7 +764,7 @@ span {
 
 .skills-column .title {
     font-size: 2rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1rem;
     color: var(--main-color);
     text-align: center;
     border-bottom: 2px solid var(--main-color);
@@ -891,7 +894,7 @@ span {
 
 .project {
   background: var(--bg-color);
-  padding: 5rem 9%;
+  padding: 1rem 9%;
 }
 
 .project .heading {
@@ -1005,6 +1008,7 @@ span {
 .see-more-container {
   text-align: center;
   margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .see-more-btn {
@@ -1123,7 +1127,7 @@ span {
 
 .certificates {
     background: var(--second-bg-color);
-    padding: 6rem 4%;
+    padding: 0 5%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -1136,6 +1140,7 @@ span {
     max-width: 1200px;
     position: relative;
     padding: 0 4rem;
+    justify-content: center;
 }
 
 .certificates-carousel {

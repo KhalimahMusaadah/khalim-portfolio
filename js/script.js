@@ -64,30 +64,33 @@ if(menuIcon) {
 
 navbarOverlay.addEventListener('click', closeNavbar);
 
+// PERBAIKAN
 navLinks.forEach(link => {
-    link.addEventListener('click', function (e) {
-
-        if (window.innerWidth <= 768) {
-            closeNavbar();
-        }
-
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        
         const targetId = this.getAttribute('href');
         const targetSection = document.querySelector(targetId);
 
         if (targetSection) {
-            e.preventDefault();
+            if (window.innerWidth <= 768) {
+                closeNavbar();
+            }
 
-            const headerHeight = document.querySelector('.header').offsetHeight;
-            const sectionTop = targetSection.offsetTop - headerHeight;
+            setTimeout(() => {
+                const header = document.querySelector('.header') || document.querySelector('header');
+                const headerHeight = header ? header.offsetHeight : 0;
+                const sectionTop = targetSection.getBoundingClientRect().top + window.scrollY - headerHeight;
 
-            window.scrollTo({
-                top: sectionTop,
-                behavior: 'smooth'
-            });
-
-            navLinks.forEach(l => l.classList.remove('active'));
-            this.classList.add('active');
+                window.scrollTo({
+                    top: sectionTop,
+                    behavior: 'smooth'
+                });
+            }, 100);
         }
+
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
     });
 });
 
@@ -103,7 +106,7 @@ window.addEventListener('resize', () => {
     }
 });
 
-
+//
 document.addEventListener('DOMContentLoaded', function () {
     const contentBoxes = document.querySelectorAll('.education-content .content');
 
