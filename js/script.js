@@ -64,33 +64,30 @@ if(menuIcon) {
 
 navbarOverlay.addEventListener('click', closeNavbar);
 
-// PERBAIKAN
 navLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        
+    link.addEventListener('click', function (e) {
+
+        if (window.innerWidth <= 768) {
+            closeNavbar();
+        }
+
         const targetId = this.getAttribute('href');
         const targetSection = document.querySelector(targetId);
 
         if (targetSection) {
-            if (window.innerWidth <= 768) {
-                closeNavbar();
-            }
+            e.preventDefault();
 
-            setTimeout(() => {
-                const header = document.querySelector('.header') || document.querySelector('header');
-                const headerHeight = header ? header.offsetHeight : 0;
-                const sectionTop = targetSection.getBoundingClientRect().top + window.scrollY - headerHeight;
+            const headerHeight = document.querySelector('.header').offsetHeight;
+            const sectionTop = targetSection.offsetTop - headerHeight;
 
-                window.scrollTo({
-                    top: sectionTop,
-                    behavior: 'smooth'
-                });
-            }, 100);
+            window.scrollTo({
+                top: sectionTop,
+                behavior: 'smooth'
+            });
+
+            navLinks.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
         }
-
-        navLinks.forEach(l => l.classList.remove('active'));
-        this.classList.add('active');
     });
 });
 
@@ -106,7 +103,7 @@ window.addEventListener('resize', () => {
     }
 });
 
-//
+//education-click
 document.addEventListener('DOMContentLoaded', function () {
     const contentBoxes = document.querySelectorAll('.education-content .content');
 
@@ -121,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+//see-more-button
 const seeMoreBtn = document.getElementById('see-more-btn');
 const extraProjects = document.querySelector('.extra-projects');
 let isVisible = false;
@@ -133,6 +131,7 @@ if (seeMoreBtn && extraProjects) {
     });
 }
 
+//certificates-carousel
 document.addEventListener("DOMContentLoaded", () => {
     const wrapper = document.querySelector(".certificates-wrapper");
     const boxes = document.querySelectorAll(".certificate-box");
