@@ -1,9 +1,11 @@
-//scroll sections
+//scroll sections with navbar background
 let sections = document.querySelectorAll('section');
 let navLinks = document.querySelectorAll('header nav a');
+let header = document.querySelector('header');
 
-window.onscroll = () => {
+function updateNavbarBackground() {
     let scrollY = window.scrollY;
+    let currentSection = '';
     
     sections.forEach(sec => {
         let offset = sec.offsetTop - 100;
@@ -19,13 +21,25 @@ window.onscroll = () => {
             if(activeLink) {
                 activeLink.classList.add('active');
             }
+            
+            currentSection = id;
         }
     });
 
-    //sticky header
-    let header = document.querySelector('header'); 
+    // Update navbar background based on current section
+    header.className = 'header'; // Reset classes
+    if (currentSection) {
+        header.classList.add(`${currentSection}-bg`);
+    }
+
+    //sticky header behavior
     header.classList.toggle('sticky', scrollY > 100);
 }
+
+window.onscroll = updateNavbarBackground;
+
+// Also update on page load
+window.addEventListener('load', updateNavbarBackground);
 
 let menuIcon = document.querySelector('#menu-icon');
 let navbar = document.querySelector('.navbar');
@@ -66,7 +80,6 @@ navbarOverlay.addEventListener('click', closeNavbar);
 
 navLinks.forEach(link => {
     link.addEventListener('click', function (e) {
-
         if (window.innerWidth <= 768) {
             closeNavbar();
         }
@@ -84,6 +97,11 @@ navLinks.forEach(link => {
                 top: sectionTop,
                 behavior: 'smooth'
             });
+
+            // Update navbar background immediately after click
+            setTimeout(() => {
+                updateNavbarBackground();
+            }, 100);
 
             navLinks.forEach(l => l.classList.remove('active'));
             this.classList.add('active');
@@ -222,39 +240,46 @@ function openCertificate(url) {
     window.open(url, "_blank");
 }
 
-//membuat pesan "berhasil dikirim"
+//contact form submission
 const form = document.getElementById("contact-form");
-const messageBox = document.getElementById("form-message")
+const messageBox = document.getElementById("form-message");
 
-form.addEventListener("submit", async (e) => {
-    e.preventDefault(); 
+if (form && messageBox) {
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault(); 
 
-    const formData = new FormData(form);
+        const formData = new FormData(form);
 
-    try {
-        const response = await fetch(form.action, {
-            method: form.method,
-            body: formData,
-            headers: {
-                Accept: "application/json",
-            },
-        });
-        
-        if (response.ok) {
-            messageBox.textContent = "✅ Pesan berhasil dikirim!";
-            messageBox.className = "success-message";
+        try {
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: formData,
+                headers: {
+                    Accept: "application/json",
+                },
+            });
+            
+            if (response.ok) {
+                messageBox.textContent = "✅ Pesan berhasil dikirim!";
+                messageBox.className = "success-message";
+                messageBox.style.display = "block";
+                form.reset();
+            } else {
+                throw new Error("Terjadi kesalahan saat mengirim pesan.");
+            }
+        } catch (error) {
+            messageBox.textContent = "❌ Gagal mengirim pesan. Silakan coba lagi.";
+            messageBox.className = "error-message";
             messageBox.style.display = "block";
-            form.reset();
-        } else {
-            throw new Error("Terjadi kesalahan saat mengirim pesan.");
         }
-    } catch (error) {
-        messageBox.textContent = "❌ Gagal mengirim pesan. Silakan coba lagi.";
-        messageBox.className = "error-message";
-        messageBox.style.display = "block";
-    }
-    
-    setTimeout(() => {
-        messageBox.style.display = "none";
-    }, 5000);
+        
+        setTimeout(() => {
+            messageBox.style.display = "none";
+        }, 5000);
+    });
+}
+
+// Initialize navbar background on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateNavbarBackground();
 });

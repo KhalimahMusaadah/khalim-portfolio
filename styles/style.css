@@ -42,6 +42,38 @@ body {
     transition: .3s;
 }
 
+.header.home-bg {
+    background: var(--bg-color) !important;
+}
+
+.header.about-bg {
+    background: var(--second-bg-color) !important;
+}
+
+.header.education-bg {
+    background: var(--bg-color) !important;
+}
+
+.header.skills-bg {
+    background: var(--second-bg-color) !important;
+}
+
+.header.project-bg {
+    background: var(--bg-color) !important;
+}
+
+.header.certificates-bg {
+    background: var(--second-bg-color) !important;
+}
+
+.header.contact-bg {
+    background: var(--bg-color) !important;
+}
+
+.header {
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
 .header.sticky {
     background: var(--bg-color);
     box-shadow: 0 0.1rem 1rem rgba(0, 0, 0, 0.2);
@@ -127,7 +159,7 @@ section {
     font-weight: 700;
     color: transparent;
     -webkit-text-stroke: .7px var(--main-color);
-    white-space: nowrap;       
+    white-space: normal;
     display: inline-block;
     position: relative;
     overflow: hidden;
@@ -139,18 +171,8 @@ section {
     animation-delay: 2s;
 }
 
-.home-content .text-animate h3::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    border-right: 2px solid var(--main-color);
-    z-index: -1;
-    animation: homeCursorText 4s linear infinite;
-    animation-delay: 2s;
-}
+
+
 
 .home-content p {
     font-size: 1.6rem;
@@ -1658,30 +1680,6 @@ span {
 }
 
 /*KEYFRAMES ANIMATION*/
-@keyframes homeBgText {
-    0%,10%,100% {
-        background-position: -31.5ch 0;
-    }
-    65%,85% {
-        background-position: 0 0;
-    }
-}
-
-@keyframes homeCursorText {
-    0%,10%,100% {
-        width: 0;;
-    }
-
-    65%,78%,85% {
-        width: 100%;
-        opacity: 1;
-    }
-
-    75%,81% {
-        opacity: 0;
-    }
-}
-
 @keyframes aboutSpinner {
     100% {
         transform: translate(-50%, -50%) rotate(360deg);
