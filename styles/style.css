@@ -792,7 +792,10 @@ span {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    padding-bottom: 5rem;
+    padding-bottom: 3rem;
+    padding-top: 3rem;
+    min-height: auto;
+    
 }
 
 .skills-column {
@@ -801,12 +804,12 @@ span {
     background: #222;
     padding: 3rem 4rem;
     border-radius: 1.5rem;
-    box-shadow: 0 5px 20px rgba(0, 188, 212, 0.2);
+    
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .skills-column:hover {
-    transform: translateY(-6px);
+    transform: translateY(-9px);
     box-shadow: 0 10px 25px rgba(0, 188, 212, 0.25);
 }
 
@@ -943,6 +946,7 @@ span {
 .project {
   background: var(--bg-color);
   padding: 1rem 9%;
+
 }
 
 .project .heading {
@@ -1176,11 +1180,13 @@ span {
 .certificates {
     background: var(--second-bg-color);
     padding: 0 5%;
-    min-height: 100vh;
+    min-height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: hidden;
+    padding-bottom: 3rem;
+    padding-top: 3rem;
 }
 
 .certificates-container {
@@ -1329,7 +1335,7 @@ span {
 .carousel-dots {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
+    margin-top: 2.5rem;
     gap: 0.8rem;
 }
 
@@ -1428,6 +1434,7 @@ span {
 .contact {
     min-height: auto;
     padding-bottom: 3rem;
+    padding-top: 3rem;
 }
 
 .contact form {
